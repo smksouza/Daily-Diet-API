@@ -1,14 +1,14 @@
 import fastify from 'fastify'
-import { knex } from './database'
 import { env } from './env'
+import { usersRoutes } from './routes/users'
+import { mealsRoutes } from './routes/meals'
 
 const app = fastify()
 
-app.get('/hello', async () => {
-  const users = await knex('users').where('name', 'Samuel Pereira').select('*')
-
-  return users
+app.register(usersRoutes, {
+  prefix: 'users',
 })
+app.register(mealsRoutes)
 
 app
   .listen({
