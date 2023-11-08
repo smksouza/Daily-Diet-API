@@ -11,7 +11,7 @@ declare module 'knex/types/tables' {
       created_at: string
       session_id?: string
     }
-    meal: {
+    meals: {
       id: string
       userId: string
       name: string
