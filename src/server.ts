@@ -8,7 +8,9 @@ const app = fastify()
 app.register(usersRoutes, {
   prefix: 'users',
 })
-app.register(mealsRoutes)
+app.register(mealsRoutes, {
+  prefix: 'meals',
+})
 
 app
   .listen({
