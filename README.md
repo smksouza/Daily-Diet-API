@@ -7,7 +7,7 @@
     - Data e Hora
     - Está dentro ou não da dieta
 }
-- [] Deve ser possível apagar uma refeição
+- [x] Deve ser possível apagar uma refeição
 - [] Deve ser possível editar uma refeição, podendo alterar todos os dados acima
 - [] Deve ser possível listar todas as refeições de um usuário
 - [] Deve ser possível visualizar uma única refeição
@@ -18,3 +18,6 @@
     - Melhor sequência de refeições dentro da dieta
 }
 - [] O usuário só pode visualizar, editar e apagar as refeições o qual ele criou
+
+
+cria uma rota post /login de users recebendo email e senha e verificando se existe se existir bota o session id no cookie para o usuario pode visualizar as meals dele
