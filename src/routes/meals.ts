@@ -5,6 +5,43 @@ import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 
 export async function mealsRoutes(app: FastifyInstance) {
   app.get(
+    '/summary',
+    {
+      preHandler: [checkSessionIdExists],
+    },
+    async (request) => {
+      const { sessionId } = request.cookies
+      const [user] = await knex('users')
+        .where('session_id', sessionId)
+        .select('id')
+
+      const userId = user.id
+
+      const meals = await knex('meals').where('userId', userId)
+
+      let bestSequence = 0
+      let currentSequence = 0
+      let onDiet = 0
+      let offDiet = 0
+
+      for (const meal of meals) {
+        if (meal.IsOnDiet) {
+          currentSequence++
+          onDiet++
+          bestSequence = Math.max(bestSequence, currentSequence)
+        } else {
+          currentSequence = 0
+          offDiet++
+        }
+      }
+
+      const totalMeals = meals.length
+
+      return { totalMeals, onDiet, offDiet, bestSequence }
+    },
+  )
+
+  app.get(
     '/',
     {
       preHandler: [checkSessionIdExists],
