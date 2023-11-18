@@ -19,5 +19,5 @@
 }
 - [x] O usuário só pode visualizar, editar e apagar as refeições o qual ele criou
 
-
+// ANOTAÇOES PESSOAIS
 cria uma rota post /login de users recebendo email e senha e verificando se existe se existir bota o session id no cookie para o usuario pode visualizar as meals dele

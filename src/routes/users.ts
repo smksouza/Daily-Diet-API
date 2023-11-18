@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { knex } from '../database'
 import { randomUUID } from 'crypto'
+import { hash } from 'bcryptjs'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.get('/', async () => {
@@ -24,8 +25,8 @@ export async function usersRoutes(app: FastifyInstance) {
   app.post('/', async (request, reply) => {
     const createUserBodySchema = z.object({
       name: z.string(),
-      email: z.string(),
-      password: z.string(),
+      email: z.string().email(),
+      password: z.string().min(6),
     })
 
     const { name, email, password } = createUserBodySchema.parse(request.body)
@@ -42,6 +43,8 @@ export async function usersRoutes(app: FastifyInstance) {
       })
     }
 
+    const password_hash = await hash(password, 6)
+
     let sessionId = request.cookies.sessionId
 
     if (!sessionId) {
@@ -57,7 +60,7 @@ export async function usersRoutes(app: FastifyInstance) {
       id: randomUUID(),
       name,
       email,
-      password,
+      password: password_hash,
       session_id: sessionId,
     })
 
